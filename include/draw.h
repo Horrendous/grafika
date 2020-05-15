@@ -5,20 +5,20 @@
 
 typedef struct Position
 {
-	double x;
-	double y;
-	double z;
+    double x;
+    double y;
+    double z;
 }Position;
 
 typedef struct {
 
-	double earth_rotation;
-	double sun_rotation;
+    double earth_rotation;
+    double sun_rotation;
 }Rotate;
 
 typedef struct{
-	Position earth;
-	Position sun;
+    Position earth;
+    Position sun;
 }Move;
 
 

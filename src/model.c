@@ -11,16 +11,16 @@ int count_tokens(const char* text)
     int is_token = FALSE;
     int count = 0;
 
-	while (text[i] != 0) {
-		if (is_token == FALSE && text[i] != ' ') {
-			++count;
-			is_token = TRUE;
-		}
-		else if (is_token == TRUE && text[i] == ' ') {
-			is_token = FALSE;
-		}
-		++i;
-	}
+    while (text[i] != 0) {
+        if (is_token == FALSE && text[i] != ' ') {
+            ++count;
+            is_token = TRUE;
+        }
+        else if (is_token == TRUE && text[i] == ' ') {
+            is_token = FALSE;
+        }
+        ++i;
+    }
 
     return count;
 }
@@ -28,74 +28,74 @@ int count_tokens(const char* text)
 
 void extract_tokens(const char* text, struct TokenArray* token_array)
 {
-	int n_tokens, token_length;
-	char* token;
-	int i;
+    int n_tokens, token_length;
+    char* token;
+    int i;
 
-	n_tokens = count_tokens(text);
+    n_tokens = count_tokens(text);
 
-	token_array->tokens = (char**)malloc(n_tokens * sizeof(char*));
+    token_array->tokens = (char**)malloc(n_tokens * sizeof(char*));
     token_array->n_tokens = 0;
 
-	i = 0;
-	while (text[i] != 0) {
-		if (text[i] != ' ') {
-			token_length = calc_token_length(text, i);
-			token = copy_token(text, i, token_length);
-			insert_token(token, token_array);
-			i += token_length;
-		}
-		else {
-			++i;
-		}
-	}
+    i = 0;
+    while (text[i] != 0) {
+        if (text[i] != ' ') {
+            token_length = calc_token_length(text, i);
+            token = copy_token(text, i, token_length);
+            insert_token(token, token_array);
+            i += token_length;
+        }
+        else {
+            ++i;
+        }
+    }
 }
 
 
 char* copy_token(const char* text, int offset, int length)
 {
-	char* token;
-	int i;
+    char* token;
+    int i;
 
-	token = (char*)malloc((length + 1) * sizeof(char));
-	for (i = 0; i < length; ++i) {
-		token[i] = text[offset + i];
-	}
-	token[i] = 0;
+    token = (char*)malloc((length + 1) * sizeof(char));
+    for (i = 0; i < length; ++i) {
+        token[i] = text[offset + i];
+    }
+    token[i] = 0;
 
-	return token;
+    return token;
 }
 
 
 void insert_token(const char* token, struct TokenArray* token_array)
 {
-	token_array->tokens[token_array->n_tokens] = (char*)token;
-	++token_array->n_tokens;
+    token_array->tokens[token_array->n_tokens] = (char*)token;
+    ++token_array->n_tokens;
 }
 
 
 int calc_token_length(const char* text, int start_index)
 {
-	int end_index, length;
+    int end_index, length;
 
-	end_index = start_index;
-	while (text[end_index] != 0 && text[end_index] != ' ') {
-		++end_index;
-	}
-	length = end_index - start_index;
+    end_index = start_index;
+    while (text[end_index] != 0 && text[end_index] != ' ') {
+        ++end_index;
+    }
+    length = end_index - start_index;
 
-	return length;
+    return length;
 }
 
 
 void free_tokens(struct TokenArray* token_array)
 {
-	int i;
+    int i;
 
-	for (i = 0; i < token_array->n_tokens; ++i) {
-		free(token_array->tokens[i]);
-	}
-	free(token_array->tokens);
+    for (i = 0; i < token_array->n_tokens; ++i) {
+        free(token_array->tokens[i]);
+    }
+    free(token_array->tokens);
 }
 
 
@@ -174,34 +174,34 @@ void clear_comment(char* line)
 
 void count_element_in_line(const char* line, Model* model)
 {
-	struct TokenArray token_array;
-	char* first_token;
+    struct TokenArray token_array;
+    char* first_token;
 
-	extract_tokens(line, &token_array);
+    extract_tokens(line, &token_array);
 
-	if (token_array.n_tokens > 0) {
-		first_token = token_array.tokens[0];
-		if (strcmp(first_token, "v") == 0) {
-			++model->n_vertices;
-		}
-		else if (strcmp(first_token, "vt") == 0) {
-			++model->n_texture_vertices;
-		}
-		else if (strcmp(first_token, "vn") == 0) {
-			++model->n_normals;
-		}
-		else if (strcmp(first_token, "f") == 0) {
-			if (token_array.n_tokens == 1 + 3) {
-				++model->n_triangles;
-			}
-			else if (token_array.n_tokens == 1 + 4) {
-				++model->n_quads;
-			}
+    if (token_array.n_tokens > 0) {
+        first_token = token_array.tokens[0];
+        if (strcmp(first_token, "v") == 0) {
+            ++model->n_vertices;
+        }
+        else if (strcmp(first_token, "vt") == 0) {
+            ++model->n_texture_vertices;
+        }
+        else if (strcmp(first_token, "vn") == 0) {
+            ++model->n_normals;
+        }
+        else if (strcmp(first_token, "f") == 0) {
+            if (token_array.n_tokens == 1 + 3) {
+                ++model->n_triangles;
+            }
+            else if (token_array.n_tokens == 1 + 4) {
+                ++model->n_quads;
+            }
             else {
                 printf("WARN: Invalid number of face elements! %d\n", token_array.n_tokens);
             }
-		}
-	}
+        }
+    }
 
     free_tokens(&token_array);
 }
@@ -209,48 +209,48 @@ void count_element_in_line(const char* line, Model* model)
 
 void read_element_from_line(const char* line, Model* model)
 {
-	struct TokenArray token_array;
-	char* first_token;
+    struct TokenArray token_array;
+    char* first_token;
     struct Triangle* triangle;
     struct Quad* quad;
 
-	extract_tokens(line, &token_array);
+    extract_tokens(line, &token_array);
 
-	if (token_array.n_tokens > 0) {
-		first_token = token_array.tokens[0];
-		if (strcmp(first_token, "v") == 0) {
+    if (token_array.n_tokens > 0) {
+        first_token = token_array.tokens[0];
+        if (strcmp(first_token, "v") == 0) {
             read_vertex(&token_array, &(model->vertices[model->n_vertices]));
-			++model->n_vertices;
-		}
-		else if (strcmp(first_token, "vt") == 0) {
+            ++model->n_vertices;
+        }
+        else if (strcmp(first_token, "vt") == 0) {
             read_texture_vertex(&token_array, &(model->texture_vertices[model->n_texture_vertices]));
-			++model->n_texture_vertices;
-		}
-		else if (strcmp(first_token, "vn") == 0) {
+            ++model->n_texture_vertices;
+        }
+        else if (strcmp(first_token, "vn") == 0) {
             read_normal(&token_array, &(model->normals[model->n_normals]));
-			++model->n_normals;
-		}
-		else if (strcmp(first_token, "f") == 0) {
-			if (token_array.n_tokens == 1 + 3) {
+            ++model->n_normals;
+        }
+        else if (strcmp(first_token, "f") == 0) {
+            if (token_array.n_tokens == 1 + 3) {
                 triangle = &(model->triangles[model->n_triangles]);
                 read_triangle(&token_array, triangle);
                 if (is_valid_triangle(triangle, model) == FALSE) {
                     printf("line: '%s'\n", line);
                 }
-				++model->n_triangles;
-			}
-			else if (token_array.n_tokens == 1 + 4) {
+                ++model->n_triangles;
+            }
+            else if (token_array.n_tokens == 1 + 4) {
                 quad = &(model->quads[model->n_quads]);
                 read_quad(&token_array, quad);
                 if (is_valid_quad(quad, model) == FALSE) {
                     printf("line: '%s'\n", line);
                 }
-				++model->n_quads;
-			}
-		}
-	}
+                ++model->n_quads;
+            }
+        }
+    }
 
-	free_tokens(&token_array);
+    free_tokens(&token_array);
 }
 
 
@@ -493,13 +493,13 @@ void print_bounding_box(const struct Model* model)
 
 void scale_model(struct Model* model, double sx, double sy, double sz)
 {
-	int i;
+    int i;
 
-	for (i = 0; i < model->n_vertices; ++i) {
-		model->vertices[i].x *= sx;
-		model->vertices[i].y *= sy;
-		model->vertices[i].z *= sz;
-	}
+    for (i = 0; i < model->n_vertices; ++i) {
+        model->vertices[i].x *= sx;
+        model->vertices[i].y *= sy;
+        model->vertices[i].z *= sz;
+    }
 }
 
 
@@ -509,32 +509,32 @@ int load_model(const char* filename, Model* model)
     printf("Load model '%s' ...\n", filename);
     if (obj_file == NULL) {
         printf("ERROR: Unable to open '%s' file!\n", filename);
-    	return FALSE;
+        return FALSE;
     }
     printf("Count ..\n");
-	count_elements(obj_file, model);
+    count_elements(obj_file, model);
     printf("Create ..\n");
-	create_arrays(model);
+    create_arrays(model);
     printf("Read ..\n");
-	read_elements(obj_file, model);
+    read_elements(obj_file, model);
 
-	return TRUE;
+    return TRUE;
 }
 
 
 void init_entities(World* world){
 
-	//Load the skybox texture.
-	world->skybox.texture = load_texture("textures\\8k_stars_milky_way.jpg");
+    //Load the skybox texture.
+    world->skybox.texture = load_texture("textures\\sky.png");
 
-	//Load the sun object and texture.
-	load_model("objects\\geoid.obj", &world->sun.model);
-	world->sun.texture = load_texture("textures\\sun.jpg");
-	scale_model (&world->sun.model, 1.7, 1.7, 1.7);
+    //Load the sun object and texture.
+    load_model("objects\\geoid.obj", &world->sun.model);
+    world->sun.texture = load_texture("textures\\sun.png");
+    scale_model (&world->sun.model, 1.7, 1.7, 1.7);
 
-	//Load the earth object and texture.
-	load_model("objects\\geoid.obj", &world->earth.model);
-	world->earth.texture = load_texture("textures\\8k_earth_clouds.jpg");
-	scale_model (&world->earth.model, 0.4, 0.4, 0.4);
+    //Load the earth object and texture.
+    load_model("objects\\geoid.obj", &world->earth.model);
+    world->earth.texture = load_texture("textures\\earth.png");
+    scale_model (&world->earth.model, 0.4, 0.4, 0.4);
 
 }

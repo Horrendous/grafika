@@ -8,9 +8,9 @@
 
 struct Camera
 {
-	struct Vertex position;
-	struct Vertex pose;
-	struct Vertex prev_position;
+    struct Vertex position;
+    struct Vertex pose;
+    struct Vertex prev_position;
 };
 
 
