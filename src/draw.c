@@ -215,11 +215,11 @@ void draw_environment(World world, Rotate* rotate, Move move ){
     draw_skybox_top(world.skybox);
 
 
-    //Draw the sun.
+    //Draw the Sun.
     glPushMatrix();
 
         glTranslatef(0,0,0);
-        glMaterialfv(GL_FRONT, GL_AMBIENT, world.sun.material_ambient);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, world.sun.material_ambient);
         glBindTexture(GL_TEXTURE_2D, world.sun.texture);
         glScalef(1.0f, 1.0f, 1.0f);
         glRotatef(rotate->sun_rotation, 1, 1, 1);
@@ -228,15 +228,27 @@ void draw_environment(World world, Rotate* rotate, Move move ){
     glPopMatrix();
 
 
-    //Draw the earth.
+    //Draw the Earth.
     glPushMatrix();
 
-            glTranslatef (move.earth.x,move.earth.y,move.earth.z);
-            glMaterialfv(GL_FRONT, GL_AMBIENT, world.earth.material_ambient);
-            glBindTexture(GL_TEXTURE_2D, world.earth.texture);
-            glScalef(1.0f, 1.0f, 1.0f);
-            glRotatef(rotate->earth_rotation, 0, 0, 1);
-            draw_model(&world.earth.model);
+    		glTranslatef (move.earth.x,move.earth.y,move.earth.z);
+    		glMaterialfv(GL_FRONT, GL_AMBIENT, world.earth.material_ambient);
+    		glBindTexture(GL_TEXTURE_2D, world.earth.texture);
+    		glScalef(1.0f, 1.0f, 1.0f);
+    		glRotatef(rotate->earth_rotation, 0, 0, 1);
+    		draw_model(&world.earth.model);
+
+   glPopMatrix();
+
+    //Draw the satelite.
+    glPushMatrix();
+
+    		glTranslatef (move.earth.x+1000,move.earth.y+1000,move.earth.z-100);
+    		glMaterialfv(GL_FRONT, GL_AMBIENT, world.satelite.material_ambient);
+    		glBindTexture(GL_TEXTURE_2D, world.satelite.texture);
+    		glScalef(1.0f, 1.0f, 1.0f);
+    		glRotatef(180, 0, 0, 1);
+    		draw_model(&world.satelite.model);
 
    glPopMatrix();
 

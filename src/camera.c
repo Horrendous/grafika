@@ -6,6 +6,7 @@
 #define skybox_size 6000
 #define sun_size 850
 #define earth_size 200
+#define satelite_size 85
 
 
 double degree_to_radian(double degree)
@@ -43,6 +44,11 @@ void don_not_head_up_against_the_wall (struct Camera* camera, Move move){
             camera->position.y<move.earth.y+earth_size && camera->position.y>move.earth.y-earth_size &&
             camera->position.z<move.earth.z+earth_size && camera->position.z>move.earth.z-earth_size)
             init_camera (camera);
+    //Satelite
+    if (camera->position.x < move.earth.x+1000+satelite_size && camera->position.x>move.earth.x+1000-satelite_size &&
+	    camera->position.y<move.earth.y+1000+satelite_size && camera->position.y>move.earth.y+1000-satelite_size &&
+	    camera->position.z<move.earth.z-100+satelite_size && camera->position.z>move.earth.z-100-satelite_size)
+	    init_camera (camera);
 
 }
 

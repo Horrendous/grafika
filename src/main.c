@@ -12,9 +12,9 @@
 #define fullscreen 0   // 1: fullscreen  0: windowed
 
 
-GLfloat light_position[] = {0, 0, 0, 0};
-GLfloat light_ambient[] = { 0.5, 0.5, 0.5, 0 };
-GLfloat light_diffuse[] = { 0.5, 0.5, 0, 0 };
+GLfloat light_position[] = {0, 150, 150, 1};
+GLfloat light_ambient[] = { 0.4, 0.4, 0.4, 1.0 };
+GLfloat light_diffuse[] = { 0.5, 0.5, 0, 1.0 };
 GLfloat light_specular[] = { 1, 1, 1, 0 };
 
 typedef GLubyte Pixel;
@@ -172,55 +172,54 @@ void draw_help() {
 
 void rotation_of_objects(Rotate* rotate) {
 
-    if (action.rotate_earth_in_galaxy == TRUE)
-    rotate->earth_rotation+=0.5;
+	if (action.rotate_earth_in_galaxy == TRUE)
+	rotate->earth_rotation+=0.5;
 
-    rotate->sun_rotation+=0.05;
+	//rotate->sun_rotation+=0.05;
 
 }
 
 void movement_of_objects (Move* move){
 
 if (action.move_earth_in_galaxy == TRUE){
-        degree+=0.1;
-        double angle = degree_to_radian(degree);
-        move->earth.x = cos(angle) * distance_a;
-        move->earth.y = sin(angle) * distance_b;
-        move->earth.z = 0;
-        }
-    else
-        if (move->earth.x == 0){
-        move->earth.x = 4000;
-        move->earth.y = 0;
-        move->earth.z = 0;
-        }
-        
+		degree+=0.1;
+		double angle = degree_to_radian(degree);
+		move->earth.x = cos(angle) * distance_a;
+		move->earth.y = sin(angle) * distance_b;
+		move->earth.z = 0;
+		}
+	else
+		if (move->earth.x == 0){
+		move->earth.x = 4000;
+		move->earth.y = 0;
+		move->earth.z = 0;
+		}
+
 }
 
 void display() {
     if (!help_on) {
         double elapsed_time;
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        elapsed_time = calc_elapsed_time();
-        update_camera_position(&camera, elapsed_time);
-        set_view_point(&camera);
-
-
-        glLightfv(GL_LIGHT1, GL_POSITION, light_position);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		elapsed_time = calc_elapsed_time();
+		update_camera_position(&camera, elapsed_time);
+		set_view_point(&camera);
+    		
+		glLightfv(GL_LIGHT1, GL_POSITION, light_position);
         glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
         glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
-        glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
-        glMaterialfv(GL_FRONT, GL_SPECULAR, light_ambient);
-        glEnable(GL_LIGHT1);
+		glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse);
+		glMaterialfv(GL_FRONT, GL_SPECULAR, light_ambient);
+		glEnable(GL_LIGHT1);
 
 
-        draw_environment(world, &rotate, move);
-        movement_of_objects(&move);
-        rotation_of_objects(&rotate);
-        reshape(WINDOW_WIDTH, WINDOW_HEIGHT);
-        glutSwapBuffers();
+		draw_environment(world, &rotate, move);
+		movement_of_objects(&move);
+		rotation_of_objects(&rotate);
+		reshape(WINDOW_WIDTH, WINDOW_HEIGHT);
+		glutSwapBuffers();
 
     }
     else {

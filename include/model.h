@@ -74,6 +74,7 @@ typedef struct {
     Entity skybox;
     Entity earth;
     Entity sun;
+    Entity satelite;
 
 }World;
 

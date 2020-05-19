@@ -537,4 +537,9 @@ void init_entities(World* world){
     world->earth.texture = load_texture("textures\\earth.png");
     scale_model (&world->earth.model, 0.4, 0.4, 0.4);
 
+    //Load the satelite object and texture.
+    load_model("objects\\satelite.obj", &world->satelite.model);
+    world->satelite.texture = load_texture("textures\\satelite.jpg");
+    scale_model (&world->satelite.model, 0.1, 0.1, 0.1);
+
 }
